@@ -48,3 +48,29 @@ var rotate = function(nums, k) {
 } 
   return nums
 };
+
+//Can also solve with math - need to review
+var singleNumber = function(nums) {
+  numCount = {};
+  solo = 0;
+  
+  nums.forEach(num => {
+      numCount[num] = numCount[num] || 0;
+      numCount[num]++;
+  })
+  
+  Object.keys(numCount).forEach(num => {
+      numCount[num] == 1 ? solo = num : null
+  })
+  
+  return solo
+};
+
+//https://leetcode.com/problems/rotate-image/discuss/159431/javascript-solution-with-example
+//need to figure out how this solution works
+const rotate = function(matrix){
+  matrix = matrix.reverse()
+  for(let i in matrix)
+    for(let j =0; j<i; j++) [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]]
+  return matrix
+}
