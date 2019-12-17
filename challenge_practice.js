@@ -74,3 +74,13 @@ const rotate = function(matrix){
     for(let j =0; j<i; j++) [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]]
   return matrix
 }
+
+// joins array into a string, converts string into bigInt to account for large numbers
+// adds one (cannot do +1 here, must do variableName++, most likely because of arithmatic with bigInts)
+// finally convert new number to a string and splits string into an array
+var plusOne = function(digits) {
+  let number = BigInt(digits.join(''))
+  number++
+  let numArr = number.toString().split('')
+  return numArr
+}
