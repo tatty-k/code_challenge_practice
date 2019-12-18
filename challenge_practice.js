@@ -84,3 +84,49 @@ var plusOne = function(digits) {
   let numArr = number.toString().split('')
   return numArr
 }
+
+//loops through list and moves all truthy values to beginning
+//while tracking the last index that was filled with a truthy value
+//loops through list again and fills in zeros from final placement point
+//to the end of the list 
+
+// ex.) 
+// first loop: [0,1,0,3,12] -> [1,1,0,3,12] -> [1,3,0,3,12] -> [1,3,12,3,12]
+// second loop: [1,3,12,3,12] -> [1,3,12,0,0]
+var moveZeroes = function(nums) {
+  let counter = 0;
+  nums.forEach( ( num, idx) => {
+      if (num) {
+          nums[counter] = num;
+         counter++;
+      }
+   });
+
+   for(let i=counter; i<nums.length; i++){
+     nums[i] = 0;
+   };
+  return nums
+};
+
+var fizzBuzz = function(n) {
+  result = []
+
+  for(let i=1; i <= n; i++){
+      
+      if(i%3 === 0 && i%5 === 0){
+         result.push("FizzBuzz")
+      }
+      
+      else if(i%3 === 0){
+          result.push("Fizz")
+      }
+      
+      else if(i%5 === 0){
+          result.push("Buzz")
+      }
+      
+      else 
+          result.push(i.toString())
+  }
+  return result
+};
