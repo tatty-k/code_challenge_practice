@@ -130,3 +130,22 @@ var fizzBuzz = function(n) {
   }
   return result
 };
+
+const linearSearch = function(array,target){
+  let left = 0
+  let right = array.length -1
+  
+  while(left <= right){
+      let mid = left + Math.floor((right-left) / 2);
+      if( target === array[mid] ){
+        return mid
+      }
+      if(target < array[mid]){
+        right = mid - 1
+      }
+      else {
+        left = mid + 1
+      }
+   } 
+  return -1
+}
