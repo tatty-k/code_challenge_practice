@@ -131,7 +131,7 @@ var fizzBuzz = function(n) {
   return result
 };
 
-const linearSearch = function(array,target){
+const binarySearch = function(array,target){
   let left = 0
   let right = array.length -1
   
