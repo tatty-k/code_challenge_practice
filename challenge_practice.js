@@ -1,5 +1,4 @@
-//need to re-visit to determine a better runtime
-var twoSum = function(nums, target) {  
+var twoSum1 = function(nums, target) {  
     for (let i = 0; i < nums.length; i++){
       for (let j = i+1; j < nums.length; j++){
           if (nums[j] == target - nums[i]){
@@ -8,6 +7,29 @@ var twoSum = function(nums, target) {
       }
   }
 };
+
+// not working yet. Need to figit with second loop.
+let twoSum2 = function(array, target){
+  
+  const numStorage = {}
+  
+     // creates object that stores elements and their indexes
+  array.forEach( (num, idx) => {
+    numStorage[num] = idx || 0
+  })
+  
+  //makes list of keys in numStorage
+  let nums = Object.keys(numStorage)
+  
+  //loops through list of nums (keys) in numStorage and compares to elemetns of original array to see if original array contains a complementary number 
+  for(let i = 0; i < nums.length; i++){
+      let complementNum = target - array[i];
+    console.log(complementNum, 'com', nums[i], 'arrayNum')
+      if(nums.includes(complementNum) && numStorage[complementNum] != i){
+        console.log([i, numStorage[complementNum]])
+      }
+    } 
+}
 
 //nested loops but runtime is O(n) because nested loop advances the outer loop
 var removeDuplicates = function (nums) {
