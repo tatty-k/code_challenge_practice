@@ -21,14 +21,15 @@ let twoSum2 = function(array, target){
   //makes list of keys in numStorage
   let nums = Object.keys(numStorage)
   
-  //loops through list of nums (keys) in numStorage and compares to elemetns of original array to see if original array contains a complementary number 
+  //loops through list of nums (keys) in numStorage and compares 
+  //to elemetns of original array to see if original array contains 
+  //a complementary number of any of the numbers in the original array 
   for(let i = 0; i < nums.length; i++){
       let complementNum = target - array[i];
-    console.log(complementNum, 'com', nums[i], 'arrayNum')
-      if(nums.includes(complementNum) && numStorage[complementNum] != i){
-        console.log([i, numStorage[complementNum]])
+      if(nums.includes(complementNum.toString()) && i != numStorage[complementNum]){
+        return [i, numStorage[complementNum]]
       }
-    } 
+    }  
 }
 
 //nested loops but runtime is O(n) because nested loop advances the outer loop
@@ -152,6 +153,15 @@ var fizzBuzz = function(n) {
   }
   return result
 };
+
+const linearSearch = function(array, value){
+  for( let i=0; i < array.length; i++){
+    if(array[i]===value){
+      return i
+    }    
+  }
+  return -1
+}
 
 const binarySearch = function(array,target){
   let left = 0
