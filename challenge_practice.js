@@ -8,7 +8,6 @@ var twoSum1 = function(nums, target) {
   }
 };
 
-// not working yet. Need to figit with second loop.
 let twoSum2 = function(array, target){
   
   const numStorage = {}
@@ -33,7 +32,7 @@ let twoSum2 = function(array, target){
 }
 
 //nested loops but runtime is O(n) because nested loop advances the outer loop
-var removeDuplicates = function (nums) {
+var removeDuplicates1 = function (nums) {
     for (let i=0; i < nums.length-1; i++){
       while(nums[i]===nums[i+1]){
         nums.splice(i,1)
@@ -41,6 +40,25 @@ var removeDuplicates = function (nums) {
     }
   return nums
   };
+  
+let removeDuplicates2 = function(nums){
+
+  //rearanged array with one copy of unique elements listed first
+  let idxTracker = 1;
+  
+  for(let i=0; i < nums.length; i++){
+    if(nums[i] !== nums[i+1]){
+      nums[idxTracker] = nums[i+1]
+      idxTracker++
+    }
+  }
+  
+  //deletes all numbers following the unique numbers that have been moved to the front of the list
+  for(let i = idxTracker -1; i < nums.length; i++){
+      nums.splice(i)
+  }
+  return idxTracker - 1
+}
 
   //need to determine small vs big array and remove matching elements from larger array
   var intersect = function(nums1, nums2) {
@@ -56,12 +74,15 @@ var removeDuplicates = function (nums) {
     return intersections
 };
 
-//calculate index of numbers using modulus 
-//loop through list and place numbers at new indexes
-var rotate = function(nums, k) {
+//time and space completity O(n)
+var rotate1 = function(nums, k) {
+  //calculate number of moves needed using modulus (in case k > array length)
   let moves = nums.length - k % nums.length;
+  //make a copy of array
   let rotated = [...nums]
   
+  //loop through copy of array and place elements from original array in copy of array in rotated locations.
+  //using orignial array copy prevents overwriting elements when re-arranging into rotated positions
   for(let i=0; i < nums.length; i++){
       rotated.splice((i - moves),1,nums[i])
   }
@@ -71,6 +92,23 @@ var rotate = function(nums, k) {
 } 
   return nums
 };
+
+function rotate2(array,k){
+  
+  //calculate marking point where loop will stop moving elements
+  //use modulus in case number of rotations needed > array length
+  const marker = k%array.length
+  let lastElement = array.length - 1 
+  
+  //stop moving elements when you reach marker
+  for(let i=0; i < marker; i++){
+      //place the last element in the array at the front of the array
+      array.unshift(array[lastElement])
+      //remove the last element in the array
+      array.pop();
+  }
+  return array
+}
 
 //Can also solve with math - need to review
 var singleNumber = function(nums) {
@@ -180,4 +218,41 @@ const binarySearch = function(array,target){
       }
    } 
   return -1
+}
+
+function bubble(array){
+  
+  let j = 0
+  
+  while(j < array.length){
+        for(let i = 0; i < array.length; i++){
+    
+          if(array[i] > array[i+1]){
+             let stored = array[i];
+             array[i] = array[i+1];
+             array[i+1] = stored;
+               }
+
+          }
+          j++
+        }
+  return array
+}
+
+let selectionSort = (arr) => {
+  let len = arr.length;
+  for (let i = 0; i < len; i++) {
+      let min = i;
+      for (let j = i + 1; j < len; j++) {
+          if (arr[min] > arr[j]) {
+              min = j;
+          }
+      }
+      if (min !== i) {
+          let tmp = arr[i];
+          arr[i] = arr[min];
+          arr[min] = tmp;
+      }
+  }
+  return arr;
 }
