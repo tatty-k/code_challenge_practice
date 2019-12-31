@@ -60,18 +60,46 @@ let removeDuplicates2 = function(nums){
   return idxTracker - 1
 }
 
-  //need to determine small vs big array and remove matching elements from larger array
+function containsDups(array){
+  let counter = {}
+
+  for(let i = 0; i < array.length; i++){
+    counter[array[i]] = counter[array[i]] || 0
+    counter[array[i]]++
+  }
+  
+  let count = Object.values(counter)
+  
+  for(let i = 0; i < count.length; i++){
+    if(count[i] > 1){
+      return true
+    }
+  }
+  return false
+}
+
+  //need to determine short vs long array and remove matching elements from larger array
   var intersect = function(nums1, nums2) {
-    const intersections = []
-    const small = nums1.length < nums2.length ? nums1 : nums2
-    const big = nums1 === small ? nums2 : nums1
-    for(let i = 0; i < small.length; i++){
-        let idx = big.indexOf(small[i]);
-            if(small[i] === big[idx]){
-                intersections.push(big.splice(idx,1))
-        }
-    }  
-    return intersections
+    let short = 0;
+    let long = 0;
+    let pairs = [];
+  
+    if(nums1.length > nums2.length) {
+        short = nums2;
+        long = nums1;
+    } else {
+        short = nums1;
+        long = nums2;
+    } 
+  
+    for(let i = 0; i < short.length; i++){
+        let idx = long.indexOf(short[i])      
+        if(long[idx]===short[i]){
+          pairs.push(short[i])
+          long.splice(idx,1)
+      }
+  }
+    return pairs
 };
 
 //time and space completity O(n)
@@ -126,15 +154,6 @@ var singleNumber = function(nums) {
   
   return solo
 };
-
-//https://leetcode.com/problems/rotate-image/discuss/159431/javascript-solution-with-example
-//need to figure out how this solution works
-const rotate = function(matrix){
-  matrix = matrix.reverse()
-  for(let i in matrix)
-    for(let j =0; j<i; j++) [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]]
-  return matrix
-}
 
 // joins array into a string, converts string into bigInt to account for large numbers
 // adds one (cannot do +1 here, must do variableName++, most likely because of arithmatic with bigInts)
@@ -191,6 +210,45 @@ var fizzBuzz = function(n) {
   }
   return result
 };
+
+function reverseString1(array){
+  
+  //store first and last index 
+  let firstIdx = 0;
+  let lastIdx = array.length -1;
+  
+  //exchange first element with last element 
+  //then exchange second element with second to last element
+  //continue until you hit the midpoint of the string 
+  for(let i = 0; i < parseInt(array.length/2); i++){
+      console.log(parseInt(array.length/2))
+      let stored = array[firstIdx];
+      array[firstIdx] = array[lastIdx];
+      array[lastIdx] = stored;
+      
+      firstIdx++
+      lastIdx--
+  }
+  return array  
+}
+
+//better runtime than reverseString2
+function reverseString2(s){
+  return s.reverse();
+}
+
+function reverseInteger(n){
+  
+  const reversed = parseInt(Math.abs(n)
+                    .toString()
+                    .split('')
+                    .reverse()
+                    .join(''))
+  
+  if ( n === 0 || Math.abs(reversed) <= -2147483648 || Math.abs(reversed) > 2147483648 ) { return 0 }
+  else if ( n > 0 ){ return reversed}
+  else return -reversed  
+}
 
 const linearSearch = function(array, value){
   for( let i=0; i < array.length; i++){
