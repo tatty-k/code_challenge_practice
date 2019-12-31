@@ -138,8 +138,8 @@ function rotate2(array,k){
   return array
 }
 
-//Can also solve with math - need to review
-var singleNumber = function(nums) {
+
+var singleNumber1 = function(nums) {
   numCount = {};
   solo = 0;
   
@@ -154,6 +154,28 @@ var singleNumber = function(nums) {
   
   return solo
 };
+
+let singleNumber2 = function(array){
+  //find the sum of the original array
+  //[a,b,b,c] -> aabbc
+  const sumDupArray = array.reduce( ( total, current ) => total + current, 0)
+  
+  //find the sum of array without duplicates 
+  //[a,b,b,c] -> [a,b,c]
+  const noDupArray = Array.from(new Set(array))
+  // [a,b,c] -> abc
+  const sumNoDupArray = noDupArray.reduce( ( total, current ) => total + current, 0)
+  
+  //find sum of numbers in array that are repeated
+  //aabbc - abc = ab
+  const sumIndivualDups = sumDupArray - sumNoDupArray
+  
+  //subtrace sum of numbers that are repeated from the single number array to get non-dup number
+  //abc - ab = c 
+  const singleNum = sumNoDupArray - sumIndivualDups
+  
+  return singleNum 
+}
 
 // joins array into a string, converts string into bigInt to account for large numbers
 // adds one (cannot do +1 here, must do variableName++, most likely because of arithmatic with bigInts)
@@ -248,6 +270,29 @@ function reverseInteger(n){
   if ( n === 0 || Math.abs(reversed) <= -2147483648 || Math.abs(reversed) > 2147483648 ) { return 0 }
   else if ( n > 0 ){ return reversed}
   else return -reversed  
+}
+
+//could clean this up quite a bit. Need to research new Map() and lastIndexOf.
+let firstUniqChar = function(s){
+  
+  let sArray = s.split('')
+  const letterCounts = {}
+ 
+  for(let i = 0; i < sArray.length; i++){
+    let letter = sArray[i]
+    letterCounts[letter] = letterCounts[letter] || 0
+    letterCounts[letter]++
+  }
+
+  let counts = Object.values(letterCounts)
+  let letters = Object.keys(letterCounts)
+  
+  for(let i = 0; i < counts.length; i++){
+    if(counts[i] == 1){
+      return sArray.indexOf(letters[i]) 
+    }
+  }
+  return -1
 }
 
 const linearSearch = function(array, value){
