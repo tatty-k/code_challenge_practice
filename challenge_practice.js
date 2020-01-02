@@ -295,6 +295,46 @@ let firstUniqChar = function(s){
   return -1
 }
 
+function anagram(s,t) {
+  
+  //concert strings to arrays and sort
+  const sArray = s.split('').sort();
+  const tArray = t.split('').sort();
+ 
+ //if one string is longer than another they are not anagrams
+ if(sArray.length !== tArray.length) {
+   return false
+ }
+  
+ //if the letters in the sorted string/arrays don't match, they are not anagrams
+  for(let i = 0; i < sArray.length; i++){
+    if(sArray[i] !== tArray[i]){
+      return false
+    }
+  }
+  return true
+}
+
+var isPalindrome = function(s) {
+  //convert to lowercase, then use regex to remove non-alphanumeric characters and spaces
+  let modified = s.toLowerCase().replace(/[^a-z0-9]/gi,'');
+
+  //initialize first and last index
+  let idx1 = 0
+  let idx2 = modified.length-1
+
+  //compare first and last index of string, then second to first and second to last 
+  //if elements don't match, return false. If midpoint is hit without finding a match, return true
+  for(let i = 0; idx1 < idx2; i++){
+      if(modified[idx1] !== modified[idx2]){
+      return false
+  }
+  idx1++
+  idx2--
+  }
+return true
+};
+
 const linearSearch = function(array, value){
   for( let i=0; i < array.length; i++){
     if(array[i]===value){
