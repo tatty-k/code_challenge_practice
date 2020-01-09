@@ -25,6 +25,9 @@ def fizzBuzz(n):
         return array
 
 #Reverse String
+#can be done easily with reverse method in python: s.reverse()
+#time complexity = 0(N), space complexity = 0(1)
+#if you rewrite this with recursion, the space complexity is 0(N) because of recursion stack
 def reverse_string(s):
     first = 0
             last = len(s) - 1
