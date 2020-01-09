@@ -23,3 +23,15 @@ def fizzBuzz(n):
                 array.append(str(n))
                 
         return array
+
+#Reverse String
+def reverse_string(s):
+    first = 0
+            last = len(s) - 1
+            
+            while first < last:
+                stored = s[first]
+                s[first] = s[last]
+                s[last] = stored
+                first = first + 1
+                last = last - 1
