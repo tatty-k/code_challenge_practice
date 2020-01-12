@@ -100,6 +100,7 @@ def strStr():
                     return i
         return -1
 
+#this solution is super slow
 #need to re-visit and figure out how to do without sort function
 def merge(num1, num2):
     idx = len(nums1) - 1
@@ -110,4 +111,26 @@ def merge(num1, num2):
                 idx -= 1
         
         nums1.sort()
+
+# Count and Say
+def countAndSay(n):
+    s = '1'
+
+    for i in range(n-1):
+    
+        previouse = s[0]
+        count = 0
+        temp = ''
+
+        for l in s:
+            if previouse == l: 
+                count += 1
+            else:
+                temp = temp + str(count) + previouse
+                previouse = l
+                count = 1
+        temp = temp + str(count) + previouse
+        s = temp
+
+    return s
 
