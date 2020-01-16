@@ -335,6 +335,85 @@ var isPalindrome = function(s) {
 return true
 };
 
+function numMagicSquaresInside(){
+  //make sure grid is min of 3X3
+  for (let i = 0; i < grid.length; i++) {
+    if(grid[i].length < 3) { 
+      return count}
+  }
+  
+  if(grid.length < 3){
+    return count
+  }
+  
+  //build square array
+  for (let i = 0; i < grid.length - 2; i++) {
+    for (let j = 0; j < grid[i].length - 2; j++) {
+      const square = [
+        grid[i][j],
+        grid[i][j + 1],
+        grid[i][j + 2],
+        grid[i + 1][j],
+        grid[i + 1][j + 1],
+        grid[i + 1][j + 2],
+        grid[i + 2][j],
+        grid[i + 2][j + 1],
+        grid[i + 2][j + 2]
+      ];
+        
+        //make sure numbers in square are between 1-9 and unique
+        if(square.some(x => x > 9 || x < 1) ||
+          Array.from(new Set(square)).length < 9
+           ) {continue}
+        
+      //make sure col, row and diag sums are equal      
+      const sumCount = [];
+      sumCount[0] = square[0]+square[1]+square[2];
+      sumCount[1] = square[3]+square[4]+square[5];
+      sumCount[2] = square[6]+square[7]+square[8];
+      sumCount[3] = square[0]+square[3]+square[6];
+      sumCount[4] = square[1]+square[4]+square[7];
+      sumCount[5] = square[2]+square[5]+square[8];
+      sumCount[6] = square[0]+square[4]+square[8];
+      sumCount[7] = square[2]+square[4]+square[6];
+      
+      if(Array.from(new Set(sumCount)).length === 1 ){ count++}
+    } 
+  }
+   return count
+};
+
+function rotateImage(matrix){
+  
+  let mLen = matrix.length 
+  let newColIdx = mLen -1
+  
+  //reverse all arrays in matrix
+//   [[1,2,3,4],          [[4,3,2,1],
+//    [5,6,7,8],    ->     [8,7,6,5],
+//    [9,10,11,12],        [12,11,10,9],
+//    [13,14,15,16]]       [16,15,14,13]]
+  matrix.forEach( r => r.reverse())
+  
+ //loop through matrix from bottom row to the top, and stack the elements found at the end of the arrays
+  for(let i = mLen - 1; i >= 0; i--){
+    newColIdx++
+    for(let j = 0; j < mLen; j++){
+      matrix[ mLen-(j+1)][newColIdx ] = matrix[i][j]
+      console.log( matrix)
+    }
+    console.log(newColIdx)
+  }
+
+  //remove original elements from inner arrays
+ while(mLen > 0){
+   matrix.forEach( r => r.shift() )
+   mLen--
+ } 
+  
+  return matrix
+}
+
 const linearSearch = function(array, value){
   for( let i=0; i < array.length; i++){
     if(array[i]===value){
