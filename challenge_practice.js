@@ -60,6 +60,10 @@ let removeDuplicates2 = function(nums){
   return idxTracker - 1
 }
 
+//cannot use the difference of the sum of array and the
+// sum of array with dups removed because array could 
+//contain neg numbers and 0's. could go through and filter 
+//these out... but that would make it harder to read code
 function containsDups(array){
   let counter = {}
 
@@ -195,7 +199,7 @@ var plusOne = function(digits) {
 // ex.) 
 // first loop: [0,1,0,3,12] -> [1,1,0,3,12] -> [1,3,0,3,12] -> [1,3,12,3,12]
 // second loop: [1,3,12,3,12] -> [1,3,12,0,0]
-var moveZeroes = function(nums) {
+var moveZeroes1 = function(nums) {
   let counter = 0;
   nums.forEach( ( num, idx) => {
       if (num) {
@@ -209,6 +213,24 @@ var moveZeroes = function(nums) {
    };
   return nums
 };
+
+//better runtime, took out second loop, keeping only first loop.
+//loop searches for none-zero values and swaps found non-zero values with 
+//the value at the marker, then increments the marker 
+function moveZeros(nums){
+  
+  let marker = 0;
+  
+  for(let i = 0; i < nums.length; i++){
+    if(nums[i] !== 0){
+      let stored = nums[marker]
+      nums[marker] = nums[i]
+      nums[i] = stored
+      marker++
+    }
+  }
+  return nums
+}
 
 var fizzBuzz = function(n) {
   result = []
@@ -383,6 +405,60 @@ function numMagicSquaresInside(){
    return count
 };
 
+//same runtime as above. Experimenting with seperating chunks into functions
+function magicSqr(grid){
+  let count = 0;
+  if (grid.length < 3 || grid[0].length <3){return count}
+  
+  for(let i = 0; i < grid.length - 2; i++){
+    for(let j = 0; j < grid[i].length -2; j++){
+      
+      let sqr = getSquare(grid,i,j)
+      
+      if(isMagic(sqr) === true){
+        count++
+      }
+    }
+  }
+  return count
+}
+
+function getSquare(grid, i, j){
+  return [
+        grid[i][j],
+        grid[i][j+1],
+        grid[i][j+2],
+        grid[i+1][j],
+        grid[i+1][j+1],
+        grid[i+1][j+2],
+        grid[i+2][j],
+        grid[i+2][j+1],
+        grid[i+2][j+2],
+      ]
+}
+
+function isMagic(sqr){
+  
+  const sumCount = []
+       
+      sumCount.push(sqr[0]+sqr[1]+sqr[2])
+      sumCount.push(sqr[3]+sqr[4]+sqr[5])
+      sumCount.push(sqr[6]+sqr[7]+sqr[8])
+      sumCount.push(sqr[0]+sqr[3]+sqr[6])
+      sumCount.push(sqr[1]+sqr[4]+sqr[7])
+      sumCount.push(sqr[2]+sqr[5]+sqr[8])
+      sumCount.push(sqr[0]+sqr[4]+sqr[8])
+      sumCount.push(sqr[2]+sqr[4]+sqr[6])
+  
+  if( Array.from(new Set(sqr)).length === 9 && 
+  //how does this logic work?!?
+  !sqr.some(x => x < 1 || x > 9) &&
+  Array.from(new Set(sumCount)).length === 1) 
+    
+  {return true}
+  else {return false}
+}
+
 function rotateImage(matrix){
   
   let mLen = matrix.length 
@@ -412,6 +488,76 @@ function rotateImage(matrix){
  } 
   
   return matrix
+}
+
+//SUPER low run time. Need to clean this up.
+var isValidSudoku = function(grid) {
+  if(rowCheck(grid) === true &&
+  colCheck(grid) === true &&
+  boxCheck(grid) === true){
+  return true
+}
+return false
+};
+
+function rowCheck(grid){
+for(let i = 0; i < grid.length; i++){
+  let row = grid[i].join('').replace(/[.]/g, '').split('')
+  if(containsDups(row) === true) {return false}
+}
+return true
+}
+
+function colCheck(grid){
+for(let i = 0; i < grid.length; i++){
+  let col = []
+  for(let j = 0; j < grid[i].length; j++){
+    col.push(grid[j][i])
+  }
+  let col1 = col.join('').replace(/[.]/g, '').split('')
+  if(containsDups(col1) === true) {return false}
+}
+return true
+}
+
+function boxCheck(grid){
+for(let i = 0; i < grid.length; i+=3){
+  for(let j = 0; j < grid[i].length; j+=3){
+    let box = [
+      grid[i][j],
+      grid[i][j+1],
+      grid[i][j+2],
+      grid[i+1][j],
+      grid[i+1][j+1],
+      grid[i+1][j+2],
+      grid[i+2][j],
+      grid[i+2][j+1],
+      grid[i+2][j+2],
+    ]
+  let box1 = box.join('').replace(/[.]/g, '').split('')
+  if(containsDups(box1) === true) {return false}
+  }
+}
+return true
+}
+
+
+function containsDups(array){
+const count = {};
+
+array.forEach( (num,i) => {
+  count[num] = count[num] || 0
+  count[num]++
+})
+
+let countArr = Object.values(count)
+
+for(let i = 0; i < countArr.length; i++){
+  if(countArr[i] !== 1){
+    return true
+  }
+}
+  return false
 }
 
 const linearSearch = function(array, value){
