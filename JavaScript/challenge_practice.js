@@ -405,7 +405,8 @@ function numMagicSquaresInside(){
    return count
 };
 
-//same runtime as above. Experimenting with seperating chunks into functions
+//Simplified the validation logic to better runtime than above. 
+//seperated into function "chunks" to make more readable/adjustable
 function magicSqr(grid){
   let count = 0;
   if (grid.length < 3 || grid[0].length <3){return count}
@@ -437,26 +438,23 @@ function getSquare(grid, i, j){
       ]
 }
 
-function isMagic(sqr){
+function isMagic(square){
   
-  const sumCount = []
-       
-      sumCount.push(sqr[0]+sqr[1]+sqr[2])
-      sumCount.push(sqr[3]+sqr[4]+sqr[5])
-      sumCount.push(sqr[6]+sqr[7]+sqr[8])
-      sumCount.push(sqr[0]+sqr[3]+sqr[6])
-      sumCount.push(sqr[1]+sqr[4]+sqr[7])
-      sumCount.push(sqr[2]+sqr[5]+sqr[8])
-      sumCount.push(sqr[0]+sqr[4]+sqr[8])
-      sumCount.push(sqr[2]+sqr[4]+sqr[6])
-  
-  if( Array.from(new Set(sqr)).length === 9 && 
-  //how does this logic work?!?
-  !sqr.some(x => x < 1 || x > 9) &&
-  Array.from(new Set(sumCount)).length === 1) 
-    
-  {return true}
-  else {return false}
+  if(Array.from(new Set(square)).length !== 9 ||
+    square.some(x => x < 1 || x > 9)) {return false}
+  if(square[0]+square[1]+square[2] === 15 &&
+    square[3]+square[4]+square[5] === 15 &&
+    square[6]+square[7]+square[8] === 15 &&
+    square[0]+square[3]+square[6] === 15 &&
+    square[1]+square[4]+square[7] === 15 &&
+    square[2]+square[5]+square[8] === 15 &&
+    square[0]+square[4]+square[8] === 15 &&
+    square[2]+square[4]+square[6] ===15 
+  ){
+    return true
+  } else {
+    return false
+  }
 }
 
 function rotateImage(matrix){
