@@ -295,7 +295,7 @@ function reverseInteger(n){
 }
 
 //could clean this up quite a bit. Need to research new Map() and lastIndexOf.
-let firstUniqChar = function(s){
+let firstUniqChar1 = function(s){
   
   let sArray = s.split('')
   const letterCounts = {}
@@ -314,6 +314,29 @@ let firstUniqChar = function(s){
       return sArray.indexOf(letters[i]) 
     }
   }
+  return -1
+}
+
+//cleaner with better runtime than first attempt
+let firstUniqChar2 = function(string){
+  
+  if(string.length === 0){return - 1}
+  
+  let charCount = {}
+  
+  for(let i = 0; i < string.length; i++){
+    charCount[ string[i] ] = charCount[ string[i] ] || 0
+    charCount[ string[i] ]++
+  }
+  
+  let letters = Object.keys(charCount)
+  for(let i = 0; i < letters.length; i++){
+    let letter = letters[i]
+    if(charCount[letter] < 2){
+       return string.indexOf(letter)
+       }
+  }
+  
   return -1
 }
 
@@ -556,6 +579,21 @@ for(let i = 0; i < countArr.length; i++){
   }
 }
   return false
+}
+
+let longestCommonPrefix = function(strs){
+  
+  if(strs.length === 0){return ''}
+  
+  let prefix = strs[0]
+  
+  for(let i = 1; i < strs.length; i++){
+    while (strs[i].indexOf(prefix) !== 0){
+      prefix = prefix.slice(0, prefix.length -1)
+      if(strs.length === 0){return ''}
+    }
+  }
+  return prefix
 }
 
 const linearSearch = function(array, value){
