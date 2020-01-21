@@ -340,7 +340,7 @@ let firstUniqChar2 = function(string){
   return -1
 }
 
-function anagram(s,t) {
+function anagram1(s,t) {
   
   //concert strings to arrays and sort
   const sArray = s.split('').sort();
@@ -358,6 +358,31 @@ function anagram(s,t) {
     }
   }
   return true
+}
+
+//much better runtime than above. Loop through both strings and store letters in an object
+//each time a letter is added from string t it's value is incremented, while values are decrmented 
+//when letters are added from string s. If all values in the object are 0 the strings are anagrams.
+function isAnagram2(t,s){
+  
+  if(s.length !== t.length){return false};
+  
+  let counter = {};
+  
+  for(let i = 0; i < t.length; i++){
+    counter[t[i]] = counter[t[i]] || 0
+    counter[t[i]]++ 
+    counter[s[i]] = counter[s[i]] || 0
+    counter[s[i]]--
+  }
+
+  let counterValues = Object.values(counter)
+  
+  for(let i = 0; i < counterValues.length; i++){
+    if (counterValues[i] !== 0){return false}
+  }
+  return true
+ 
 }
 
 var isPalindrome = function(s) {
