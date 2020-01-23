@@ -40,7 +40,7 @@ let state = {
   }
 
   function init(){
-    state.turn = "X",
+    state.turn = "X"
     state.boardShown = ['','','','','','','','','']
     state.boardValues = [0,0,0,0,0,0,0,0,0]
     showBoard();
