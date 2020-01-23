@@ -23,7 +23,8 @@ let state = {
     ties:0,
     winner:'',
     boardLength: 0,
-    boardValues: []
+    boardValues: [],
+    square: []
   }
 
 function init(){
@@ -32,26 +33,40 @@ function init(){
     getValidBoardLength()
     showBoard();
     createBoardState()
-    playRound()
+    addEventListeners()
+    // playRound()
     }
 
-function playRound(){
+function addEventListeners(){
+    document.querySelectorAll('#board div').forEach(function (el) {
+        el.addEventListener('click', placeToken)
+        });
+}
+addEventListeners()
 
-document.querySelectorAll('#board div').forEach(function (el) {
-    el.addEventListener('click', placeToken)
-    });
-    isWin()
-    if(isWin(state.boardValues)===false){
-        playRound
-    } else {
-        alert(`congrats ${state.winner}`)
+function playRound(){
+    console.log("yo")
+    //why do I need to declare this instead of accessing from state?
+    const board = state.boardValues
+    for (let i = 0; i < board.length - 2; i++) {
+        for (let j = 0; j < board.length - 2; j++){
+            let square = getSquare(state.boardValues, i,j)
+            if(isWin(square)===false){
+                console.log(square)
+                // playRound
+            } else {
+ 
+                {alert('we have a winner!')}
+            }
+
+        }
     }
 }
 
   function placeToken(evt){
     const marker = evt.target;  
-    colIdx = marker.id[1]
-    rowIdx = marker.id[3]
+    const colIdx = marker.id[1]
+    const rowIdx = marker.id[3]
 
     // make sure there isn't a marker there already
     if(!state.boardValues[rowIdx][colIdx]) {
@@ -65,6 +80,22 @@ document.querySelectorAll('#board div').forEach(function (el) {
             state.turn = "X"
         }
     } 
+// added below
+    const board = state.boardValues
+    for (let i = 0; i < board.length - 2; i++) {
+        for (let j = 0; j < board.length - 2; j++){
+            getSquare(state.boardValues, i,j)
+            console.log(state.square)
+            if(isWin(state.square)===false){
+                
+                playRound
+            } else {
+ 
+                {alert('we have a winner!')}
+            }
+
+        }
+    }
  }
 
 function getValidBoardLength(){
@@ -105,33 +136,40 @@ function showBoard(){
     }
 }
 
+function getSquare(board, i,j){
+    state.square = [];
+    for (let changeI = 0; changeI < 3; changeI++) {
+        let row = [];
+        state.square.push(row);
+        for (let changeJ = 0; changeJ < 3; changeJ++) {
+          row.push(state.boardValues[i + changeI][j + changeJ]);
+        }
+      }  
+}
+
+
 function isWin(board){
-    console.log("hit")
-    let sumDiag1 = 3;
+    let sumDiag1 = 0;
     let sumDiag2 = 0;
-    for (let i = 0; i < state.boardLength; i++) {
+    for (let i = 0; i < 3; i++) {
       let sumRow = 0;
       let sumCol = 0;
-      sumDiag1 += state.boardValues[i][i];
-      sumDiag2 += state.boardValues[i][state.boardLength - (i + 1)];
-      for (let j = 0; j < state.boardValues; j++) {
-        sumRow += state.boardValues[i][j];
-        sumCol += state.boardValues[j][i];
+      sumDiag1 += state.square[i][i];
+      sumDiag2 += state.square[i][state.square.length - (i + 1)];
+      for (let j = 0; j < 3; j++) {
+          console.log(i,j)
+        //   console.log(state.square[i][j])
+        sumRow += state.square[i][j];
+        sumCol += state.square[j][i];
       }
-
-      //need to figure out how to end function after changing state
+    // console.log(sumRow,'r',sumCol,'c')
       if (sumRow === 3 || sumCol === 3){state.winner = "X"} 
       else if (sumRow === 30 || sumCol === 30){state.winner = "O"} 
-    //   console.log(state.boardValues)
-    // console.log(sumDiag1,'d1',sumDiag2,'d2',sumRow,'r',sumCol,'c')
-      else {return false}
     }
+    console.log(sumDiag1,'d1',sumDiag2,'d2')
     if (sumDiag1 === 3 || sumDiag2=== 3){state.winner = "X"} 
     else if (sumDiag1 === 30 || sumDiag2 === 30){state.winner = "O"} 
     else {return false}
-    
-    console.log(state.boardValues)
-    console.log(sumDiag1,'d1',sumDiag2,'d2',sumRow,'r',sumCol,'c')
 
 }
 
